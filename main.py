@@ -6,6 +6,7 @@ except:
     print("Vous n'avez pas téléchargé le module pygame ! \n Téléchargez le avec la commande ci-contre : pip install pygame")
 from Classes.game import Game
 from Classes.board import Board
+from random import randint
 
 game = Game()
 while playing:
@@ -13,6 +14,7 @@ while playing:
     board = Board(width, height, screen)
     
     for event in pygame.event.get():
+        print(event)
         if event.type == QUIT:
             playing = False
         elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1 :
@@ -23,13 +25,14 @@ while playing:
             case = int((clickX % width // 7) // 30.14 - 1)
             if width-180 < clickX < width and 10 < clickY < 60:
                 playing = False
-            print(game.fullColumn(case))
-            if not game.fullGrid() and not game.win() and board.inBoard(click) and game.fullColumn(case):
+            if board.inBoard(click) and not game.fullColumn(case):
                 #caseX = int((clickX % width // 7) // 30.14 - 1)
                 game.play(case, 1)
+                
                 game.display()
-    
-    
+    board.drawPawn(game)
+    # if game.fullGrid() or game.win():
+    #     print("fin de partie")
     
     
     screen.blit(endSurface, endRect)

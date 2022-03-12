@@ -10,7 +10,7 @@ class Game:
         return 0 in self.grid
     
     def fullColumn(self, col):
-        return self.grid[0][col] == 0
+        return self.grid[0][col] != 0
 
     def resetGrid(self):
         self.grid = [[0] * 7 for i in range(6)]

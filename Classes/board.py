@@ -17,13 +17,14 @@ class Board:
     
     def drawPawn(self, game):
         pawns = game.grid
-        for i,line in enumerate(pawns):
-            if line[i] == 1:
-                #draw red
-                pass
-            elif line[i] == 2:
-                #draw yellow
-                pass
+        x = 212.29
+        y = 134.17
+        for i in range(game.rows):
+            for j in range(game.columns):
+                if pawns[i][j] == 1:
+                    pygame.draw.circle(self.screen, (255,60,60), (self.x + j * x + x /2,self.y + i * y + y /2), 50)
+                elif pawns[i][j] == 2:
+                    pygame.draw.circle(self.screen, (255,60,60), (self.x + i * x, self.y + j * y), 50)          
             #draw a pawn
         pass
 
