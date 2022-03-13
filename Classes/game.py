@@ -1,6 +1,12 @@
 class Game:
     def __init__(self):
         self.grid = [[0] * 7 for i in range(6)]
+#         self.grid = [[0, 0, 0, 0, 0, 0, 0],
+# [0, 0, 0, 2, 0, 0, 0],
+# [0, 0, 0, 0, 2, 0, 0],
+# [0, 0, 0, 0, 0, 2, 0],
+# [0, 0, 0, 0, 0, 0, 2],
+# [0, 0, 0, 0, 0, 0, 0]]
         self.columns = 7
         self.rows = 6
         #directions -> diagonales, ligne, colonne
@@ -20,8 +26,8 @@ class Game:
         for i in range(3):
             x += dx
             y += dy
-            if (not 0 <= x < 6 and not 0 <= y < y) or self.grid[x][y] != player:
-                return None
+            if (not 0 <= x < 6 or not 0 <= y < 7) or self.grid[x][y] != player:
+                return 0
         return player
     
     def win(self):
@@ -32,8 +38,9 @@ class Game:
                         player = self.checkWin(x, y, dx, dy)
                         if player != 0:
                             return player
+        return 0
     
-    def play(self,col, player):
+    def play(self, col, player):
         for i in range(1,self.rows):
             if self.grid[i][col] != 0:
                 self.grid[i - 1][col] = player
