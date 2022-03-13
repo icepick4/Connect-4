@@ -10,7 +10,6 @@
 
 ## Important
 
-- The best score (one best score per player registered) is saved in "bestScore.txt" 
 - The game depends of the Pygame module
 
 ## Screenshots
