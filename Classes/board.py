@@ -33,7 +33,6 @@ class Board:
     def inBoard(self,click):
         return self.x <= click[0] < self.x * 8 and self.y <= click[1] < self.y * 7
 
-
     def seePawn(self, col, game, color):
         ctr = -1
         for i in range(game.rows):

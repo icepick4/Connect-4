@@ -1,12 +1,6 @@
 class Game:
     def __init__(self):
         self.grid = [[0] * 7 for i in range(6)]
-#         self.grid = [[0, 0, 0, 0, 0, 0, 0],
-# [0, 0, 0, 2, 0, 0, 0],
-# [0, 0, 0, 0, 2, 0, 0],
-# [0, 0, 0, 0, 0, 2, 0],
-# [0, 0, 0, 0, 0, 0, 2],
-# [0, 0, 0, 0, 0, 0, 0]]
         self.columns = 7
         self.rows = 6
         #directions -> diagonales, ligne, colonne

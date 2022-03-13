@@ -20,16 +20,11 @@ while playing:
         if event.type == QUIT:
             playing = False
         elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1 :
-            # click = event.pos
-            # posX = click[0]
-            # posY = click[1]
-            #case = int((posX % width // 7) // (width/7 % width / 9) - 1)
             #on presse le bouton close
             if width-180 < posX < width and 10 < posY < 60:
                 playing = False
             if board.inBoard(posMouse) and not game.fullColumn(case) and inGame and case !=7 and case !=-1:
                 inGame = True
-                #caseX = int((posX % width // 7) // 30.14 - 1)
                 game.play(case, player)
                 if player == 1:
                     player = 2
@@ -40,7 +35,6 @@ while playing:
                 game.resetGrid()
     if board.inBoard(posMouse) and inGame and case !=7 and case !=-1 and not game.fullColumn(case):
         posX = event.pos[0]
-        #case = int((posX % width // 7) // (width/7 % width / 9) - 1)
         if player == 1:
             board.seePawn(case, game, (255,60,60))   
         else:
