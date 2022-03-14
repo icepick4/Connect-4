@@ -6,7 +6,6 @@ except:
     print("Vous n'avez pas téléchargé le module pygame ! \n Téléchargez le avec la commande ci-contre : pip install pygame")
 
 from Classes.board import Board
-
 while playing:
     screen.fill((30,144,255))
     pygame.draw.rect(screen, (45,45,45), (0,height - height // 8, width, height))
@@ -38,7 +37,7 @@ while playing:
     if board.inBoard(posMouse) and inGame and case !=7 and case !=-1 and not game.fullColumn(case):
         posX = event.pos[0]
         if player == 1:
-            board.seePawn(case, game, (255,60,60))   
+            board.seePawn(case, game, (255,50,50))   
         else:
             board.seePawn(case, game, (255,215,0))  
             

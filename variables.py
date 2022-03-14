@@ -1,6 +1,7 @@
 from Classes.game import Game
 from Classes.text import Text
-import pygame       
+import pygame  
+from time import time     
 pygame.init()
 windowSize = pygame.display.get_desktop_sizes()[0]
 screen = pygame.display.set_mode(windowSize)
@@ -12,6 +13,7 @@ font = pygame.font.Font(fontPath, 50)
 littleFont = pygame.font.Font(fontPath, 43)
 playing = True
 player = 1
+delay = time()
 #bouton pour fermer la fenetre
 
 endSurface = font.render("CLOSE", True, (0,0,0))
