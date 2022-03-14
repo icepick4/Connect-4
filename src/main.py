@@ -1,4 +1,4 @@
-from variables import *
+from src.variables import *
 try:
     import pygame
     from pygame.locals import *
