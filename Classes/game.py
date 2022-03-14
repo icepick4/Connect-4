@@ -7,7 +7,13 @@ class Game:
         self.pos = [(1, 0), (0, 1), (1, 1), (1, -1)]
 
     def fullGrid(self):
-        return 0 in self.grid
+        for i in range(self.rows):
+            for j in range(self.columns):
+                if self.grid[i][j] == 0:
+                    return False
+        return True
+            
+        return not 0 in self.grid
     
     def fullColumn(self, col):
         return self.grid[0][col] != 0

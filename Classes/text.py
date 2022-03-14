@@ -1,4 +1,3 @@
-import pygame
 
 class Text:
     def __init__(self, screen, text, font, pos, type):

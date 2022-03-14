@@ -42,21 +42,24 @@ while playing:
             
     board.drawPawn(game)
     status = game.win()
-    if game.fullGrid() or status:
+    if game.fullGrid():
         #print quel joueur à gagné
+        inGame = False
+        draw.display()
+    elif status:
         inGame = False
         if status == 1:
             winRed.display()
         elif status == 2:
             winYellow.display()
         status = 0
-        
     if player == 1 and inGame:
         redTurn.display()
     elif player == 2 and inGame:
         yellowTurn.display()
     if not inGame:
         newGame.display()
+    
     screen.blit(endSurface, endRect)
     pygame.display.flip()
 pygame.quit()
