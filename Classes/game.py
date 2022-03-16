@@ -12,8 +12,6 @@ class Game:
                 if self.grid[i][j] == 0:
                     return False
         return True
-            
-        return not 0 in self.grid
     
     def fullColumn(self, col):
         return self.grid[0][col] != 0
