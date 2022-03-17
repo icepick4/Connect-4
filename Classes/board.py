@@ -18,6 +18,7 @@ class Board:
             pygame.draw.line(self.screen, (0,0,0), (self.x, self.y + i * self.y + 2), (self.x * 9 - self.x, self.y + i * self.y + 2), 2)
             pygame.draw.line(self.screen, (50,50,50), (self.x, self.y + i * self.y), (self.x * 9 - self.x, self.y + i * self.y), 4)
             pygame.draw.line(self.screen, (0,0,0), (self.x, self.y + i * self.y - 2), (self.x * 9 - self.x, self.y + i * self.y - 2), 2)
+
     def drawPawn(self, game):
         pawns = game.grid
         for i in range(game.rows):
@@ -31,6 +32,7 @@ class Board:
             #draw a pawn
 
     def inBoard(self,click):
+        #check pos mouse in board
         return self.x <= click[0] < self.x * 8 and self.y <= click[1] < self.y * 7
 
     def seePawn(self, col, game, color):
