@@ -5,6 +5,7 @@ class Game:
         self.rows = 6
         #directions -> diagonales, ligne, colonne
         self.pos = [(1, 0), (0, 1), (1, 1), (1, -1)]
+        self.lastPawn = []
 
     def fullGrid(self):
         for i in range(self.rows):
@@ -42,16 +43,30 @@ class Game:
         for i in range(1,self.rows):
             if self.grid[i][col] != 0:
                 self.grid[i - 1][col] = player
+                self.lastPawn.append((i-1,col))
                 return True
             elif i == 5:
                 self.grid[i][col] = player
+                self.lastPawn.append((i, col))
                 return True
         return False
     
+    def removeLastPawn(self):
+        x,y = self.lastPawn[len(self.lastPawn)-1]
+        self.grid[x][y] = 0
+        self.lastPawn = self.lastPawn[0:len(self.lastPawn)-1]
+
     def freePos(self,x,y):
         return self.grid[x][y] == 0
 
     def display(self):
         for i in self.grid:
             print(i)
+
+    def isEmpty(self):
+        for i in range(self.rows):
+            for j in range(self.columns):
+                if self.grid[i][j] != 0:
+                    return False
+        return True
         

@@ -18,6 +18,10 @@ while playing:
         endSurface = font.render("CLOSE", True, (255,60,60))
     else:
         endSurface = font.render("CLOSE", True, (0,0,0))
+    if cancelRect.left < posX < cancelRect.right and cancelRect.top < posY < cancelRect.bottom:
+        cancelSurface = littleFont.render("CANCEL LAST MOVE", True, (200,185,10))
+    else:
+        cancelSurface = littleFont.render("CANCEL LAST MOVE", True, (0,0,0))
     for event in pygame.event.get():
         if event.type == QUIT:
             playing = False
@@ -25,6 +29,12 @@ while playing:
             #on presse le bouton close
             if endRect.left < posX < endRect.right and endRect.top < posY < endRect.bottom:
                 playing = False
+            elif cancelRect.left < posX < cancelRect.right and cancelRect.top < posY < cancelRect.bottom and not game.isEmpty():
+                game.removeLastPawn()
+                if player == 1:
+                    player = 2
+                else:
+                    player = 1
             if board.inBoard(posMouse) and not game.fullColumn(case) and inGame and case !=7 and case !=-1:
                 inGame = True
                 game.play(case, player)       
@@ -62,10 +72,12 @@ while playing:
         yellowTurn.display()
     if not inGame:
         newGame.display()
+    elif not game.isEmpty():
+        screen.blit(cancelSurface, cancelRect)
 
     
-    yellowCounterSurface = font.render("yellow : {0}".format(winYellowCTR), True, (255,255,0))
-    redCounterSurface = font.render("red       : {0}".format(winRedCTR), True, (255,0,0))
+    yellowCounterSurface = littleFont.render("yellow : {0}".format(winYellowCTR), True, (255,255,0))
+    redCounterSurface = littleFont.render("red       : {0}".format(winRedCTR), True, (255,0,0))
     screen.blit(yellowCounterSurface, yellowCounterRect)
     screen.blit(redCounterSurface, redCounterRect)
     screen.blit(endSurface, endRect)

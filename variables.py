@@ -32,7 +32,10 @@ newGame = Text(screen, "Click anywhere to start a new game !", littleFont, (widt
 game = Game()
 
 
-yellowCounterSurface = font.render("yellow : {0}".format(winYellowCTR), True, (255,255,0))
-yellowCounterRect = yellowCounterSurface.get_rect(topleft = (15,15))
-redCounterSurface = font.render("red       : {0}".format(winRedCTR), True, (255,0,0))
-redCounterRect = redCounterSurface.get_rect(topleft = (15,70))
+yellowCounterSurface = littleFont.render("yellow : {0}".format(winYellowCTR), True, (255,255,0))
+yellowCounterRect = yellowCounterSurface.get_rect(topleft = (5,5))
+redCounterSurface = littleFont.render("red       : {0}".format(winRedCTR), True, (255,0,0))
+redCounterRect = redCounterSurface.get_rect(topleft = (5,yellowCounterRect.bottom))
+
+cancelSurface = littleFont.render("CANCEL LAST MOVE", True, (0,0,0))
+cancelRect = cancelSurface.get_rect(midbottom = (width / 2, height / 8))
