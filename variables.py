@@ -15,7 +15,6 @@ playing = True
 player = 1
 winRedCTR = 0
 winYellowCTR = 0
-delay = time()
 
 #bouton pour fermer la fenetre
 endSurface = font.render("CLOSE", True, (0,0,0))
