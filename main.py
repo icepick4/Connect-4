@@ -95,18 +95,16 @@ while playing:
             winSound.play()
         if status == 1 and not soundPlayed:
             winRedCTR += 1
+        elif status == 1:
             winRed.display()
-        elif status == 2 and not soundPlayed:
+        if status == 2 and not soundPlayed:
             winYellowCTR += 1
+        elif status == 2:
             winYellow.display()
         inGame = False
         soundPlayed = True
         status = 0  
     elif status:
-        if status == 1 and inGame:
-            winRedCTR += 1
-        elif status == 2 and inGame:
-            winYellowCTR += 1
         inGame = False
         
     
