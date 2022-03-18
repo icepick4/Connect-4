@@ -93,19 +93,22 @@ while playing:
     elif status and not inMove:
         if not soundPlayed:
             winSound.play()
-        if status == 1:
-            if inGame:
-                winRedCTR += 1
+        if status == 1 and not soundPlayed:
+            winRedCTR += 1
             winRed.display()
-        elif status == 2:
-            if inGame:
-                winYellowCTR +=1
+        elif status == 2 and not soundPlayed:
+            winYellowCTR += 1
             winYellow.display()
         inGame = False
         soundPlayed = True
         status = 0  
     elif status:
+        # if status == 1 and inGame:
+        #     winRedCTR += 1
+        # elif status == 2 and inGame:
+        #     winYellowCTR += 1
         inGame = False
+        
     
 
     ########TEXTS########
