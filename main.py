@@ -7,10 +7,12 @@ except:
 
 from Classes.board import Board
 
+
 while playing:
     #screen design
     screen.fill((30,144,255))
-    pygame.draw.rect(screen, (45,45,45), (0,height - height // 8, width, height))
+    
+    #pygame.draw.rect(screen, (45,45,45), (0,height - height // 15, width, height))
 
     board = Board(width, height, screen)
 
@@ -63,10 +65,12 @@ while playing:
 
     #preview of play
     if board.inBoard(posMouse) and inGame and case !=7 and case !=-1 and not game.fullColumn(case):
+        lastCase = case
         if player == 1:
-            board.seePawn(case, game, (255,50,50))   
+            board.seePawn(case, (255,50,50))   
         else:
-            board.seePawn(case, game, (255,215,0)) 
+            board.seePawn(case, (255,215,0))
+         
 
     #state of the game
     status = game.win()
@@ -98,6 +102,7 @@ while playing:
     #counters en blits
     yellowCounterSurface = littleFont.render("yellow : {0}".format(winYellowCTR), True, (255,255,0))
     redCounterSurface = littleFont.render("red       : {0}".format(winRedCTR), True, (255,0,0))
+
     screen.blit(yellowCounterSurface, yellowCounterRect)
     screen.blit(redCounterSurface, redCounterRect)
     screen.blit(endSurface, endRect)
