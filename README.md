@@ -1,4 +1,4 @@
-# Sonic Game
+# Connect 4 game !
 [![forthebadge](https://forthebadge.com/images/badges/made-with-python.svg)](https://forthebadge.com)
 ## Keys
 
@@ -16,8 +16,8 @@
 
 Short previews of the game :
 
-![unknown](https://user-images.githubusercontent.com/82316285/158080584-b7067545-4b03-45ff-9467-913926166d07.png)
+![Screenshot_2](https://user-images.githubusercontent.com/82316285/159082718-3799642d-936e-4a75-9304-6c2d5b6614ab.png)
 
-![unknown2](https://user-images.githubusercontent.com/82316285/158080586-3b824848-cced-4a22-bc21-3fa29e6dcde8.png)
+![Screenshot_3](https://user-images.githubusercontent.com/82316285/159082783-67b45f7f-8c01-4511-ac0f-bb15ecb431cf.png)
 
-![unknown3](https://user-images.githubusercontent.com/82316285/158080589-18f20031-dd82-4202-ab6b-7fdf471230d2.png)
+![image](https://user-images.githubusercontent.com/82316285/159084758-362761a2-34fe-4ba7-bf9d-f88f1cf22270.png)
