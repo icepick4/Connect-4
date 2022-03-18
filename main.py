@@ -103,10 +103,10 @@ while playing:
         soundPlayed = True
         status = 0  
     elif status:
-        # if status == 1 and inGame:
-        #     winRedCTR += 1
-        # elif status == 2 and inGame:
-        #     winYellowCTR += 1
+        if status == 1 and inGame:
+            winRedCTR += 1
+        elif status == 2 and inGame:
+            winYellowCTR += 1
         inGame = False
         
     
