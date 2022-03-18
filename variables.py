@@ -15,7 +15,8 @@ windowSize = pygame.display.get_desktop_sizes()[0]
 screen = pygame.display.set_mode(windowSize)
 width = windowSize[0]
 height = windowSize[1]
-
+caseW = width / 9
+caseH = height / 8
 fontPath = "assets/font/leaguespartan-bold.ttf"
 font = pygame.font.Font(fontPath, 50)
 littleFont = pygame.font.Font(fontPath, 43)
@@ -49,5 +50,7 @@ cancelRect = cancelSurface.get_rect(midbottom = (width / 2, height / 8))
 endSurface = font.render("CLOSE", True, (0,0,0))
 endRect = endSurface.get_rect(topright=(width - 10,10))
 
-
+#win sound
+winSound = pygame.mixer.Sound('assets/audio/win.wav')
 game = Game()
+pawns = []
