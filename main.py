@@ -6,13 +6,11 @@ except:
     print("Vous n'avez pas téléchargé le module pygame ! \n Téléchargez le avec la commande ci-contre : pip install pygame")
 
 from Classes.board import Board
-
+from Classes.pawn import Pawn
 
 while playing:
     #screen design
     screen.fill((30,144,255))
-    
-    #pygame.draw.rect(screen, (45,45,45), (0,height - height // 15, width, height))
 
     board = Board(width, height, screen)
 
@@ -22,7 +20,7 @@ while playing:
     posY = posMouse[1]
 
     #current column
-    case = int((posX % width // 7) // (width / 7 % width / 9) - 1)
+    col = int((posX % width // 7) // (width / 7 % width / 9) - 1)
 
     #hover effects
     if endRect.left < posX < endRect.right and endRect.top < posY < endRect.bottom:
@@ -44,40 +42,57 @@ while playing:
             #on presse le bouton cancel
             elif cancelRect.left < posX < cancelRect.right and cancelRect.top < posY < cancelRect.bottom and not game.isEmpty():
                 game.removeLastPawn()
+                pawns.pop()
                 if player == 1:
                     player = 2
                 else:
                     player = 1
             #on presse une colonne
-            if board.inBoard(posMouse) and not game.fullColumn(case) and inGame and case !=7 and case !=-1:
+            if board.inBoard(posMouse) and not game.fullColumn(col) and inGame and col !=7 and col !=-1:
                 inGame = True
-                game.play(case, player)       
+                row = game.play(col, player)       
                 if player == 1:
+                    pawns.append(Pawn((col,row), RED, BORDERRED, caseW, caseH))
                     player = 2
                 else:
+                    pawns.append(Pawn((col,row), YELLOW, BORDERYELLOW, caseW, caseH))
                     player = 1
+                
             if not inGame:
                 inGame = True
+                soundPlayed = False
                 game.resetGrid()
+                pawns = []
 
-    #print each pawn
-    board.drawPawn(game)
-
+    ########PAWNS########
+    #if won -> speed decrease for last pawn
+    if inGame:
+        speed = 0.05
+    else:
+        speed = 0.02
+    #animation
+    for i in pawns:
+        
+        checkMove = i.animation(screen, speed)
+        if checkMove:
+            inMove = True
     #preview of play
-    if board.inBoard(posMouse) and inGame and case !=7 and case !=-1 and not game.fullColumn(case):
-        lastCase = case
+    if board.inBoard(posMouse) and inGame and col !=7 and col !=-1 and not game.fullColumn(col):
+        lastcol = col
         if player == 1:
-            board.seePawn(case, (255,50,50))   
+            board.seePawn(col, (255,50,50))   
         else:
-            board.seePawn(case, (255,215,0))
+            board.seePawn(col, (255,215,0))
          
-
-    #state of the game
+    
+    ########STATE OF THE GAME########
     status = game.win()
-    if game.fullGrid():
+    if game.fullGrid() and not inMove:
         inGame = False
         draw.display()
-    elif status:
+    elif status and not inMove:
+        if not soundPlayed:
+            winSound.play()
         if status == 1:
             if inGame:
                 winRedCTR += 1
@@ -87,25 +102,30 @@ while playing:
                 winYellowCTR +=1
             winYellow.display()
         inGame = False
-        status = 0
+        soundPlayed = True
+        status = 0  
+    elif status:
+        inGame = False
+    
 
-    #texts on top
+    ########TEXTS########
     if player == 1 and inGame:
         redTurn.display()
     elif player == 2 and inGame:
         yellowTurn.display()
-    if not inGame:
+    if not inGame and not inMove:
         newGame.display()
-    elif not game.isEmpty():
+    elif not game.isEmpty() and inGame:
         screen.blit(cancelSurface, cancelRect)
-
-    #counters en blits
+    #counters
     yellowCounterSurface = littleFont.render("yellow : {0}".format(winYellowCTR), True, (255,255,0))
     redCounterSurface = littleFont.render("red       : {0}".format(winRedCTR), True, (255,0,0))
 
+    ########BLITS########
     screen.blit(yellowCounterSurface, yellowCounterRect)
     screen.blit(redCounterSurface, redCounterRect)
     screen.blit(endSurface, endRect)
 
+    inMove = False
     pygame.display.flip()
 pygame.quit()

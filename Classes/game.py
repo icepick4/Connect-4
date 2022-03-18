@@ -44,11 +44,11 @@ class Game:
             if self.grid[i][col] != 0:
                 self.grid[i - 1][col] = player
                 self.lastPawn.append((i-1,col))
-                return True
+                return i - 1
             elif i == 5:
                 self.grid[i][col] = player
                 self.lastPawn.append((i, col))
-                return True
+                return i
         return False
     
     def removeLastPawn(self):
