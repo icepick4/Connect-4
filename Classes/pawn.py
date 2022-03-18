@@ -1,10 +1,26 @@
 import pygame
 
 class Pawn:
-    def __init__(self, pos, color, width, height):
-        self.pos = pos
+    def __init__(self, pos, color, borderColor, width, height):
+        self.lastRow = pos[1]
+        self.col = pos[0]
+        self.posYAnimation = -1
+        self.width = width 
+        self.height = height 
         self.color = color
-        self.surface = pygame.Surface((width, height))
-        self.rect = self.surface.get_rect(topleft = (pos[0] * width, height / 2, ))
-        pygame.draw.circle(self.surface, color, (0,0), width / 2)
-        #last pos : (width + pos[1] * width + width /2,height*2 + pos[0] * height + height /2)
+        self.borderColor = borderColor
+        self.surface = pygame.Surface((self.width, self.height), pygame.SRCALPHA, 32)
+        self.surface = self.surface.convert_alpha()
+        pygame.draw.circle(self.surface, color, (width / 2,height / 2), self.width / 4)
+        pygame.draw.circle(self.surface, borderColor, (width / 2,height / 2), (self.width / 4) + 5, 5)
+
+    def animation(self, screen):
+        self.rect = self.surface.get_rect(midtop = (self.width + self.col * self.width + self.width /2, self.height*2 + self.posYAnimation * self.height - 5))
+        if self.posYAnimation < self.lastRow:
+            self.posYAnimation += 0.05
+            inMove = True
+        else:
+            inMove = False
+        screen.blit(self.surface, self.rect)
+        return inMove
+

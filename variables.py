@@ -21,6 +21,7 @@ endSurface = font.render("CLOSE", True, (0,0,0))
 endRect = endSurface.get_rect(topright=(width - 10,10))
 
 inGame = False
+inMove = False
 
 centeredPos = (width/2, height /13)
 redTurn = Text(screen, "Red's turn !", font, centeredPos, "red")
@@ -39,3 +40,10 @@ redCounterRect = redCounterSurface.get_rect(topleft = (5,yellowCounterRect.botto
 
 cancelSurface = littleFont.render("CANCEL LAST MOVE", True, (0,0,0))
 cancelRect = cancelSurface.get_rect(midbottom = (width / 2, height / 8))
+
+RED = (255,50,50)
+BORDERRED = (200,0,0)
+YELLOW = (255,215,0)
+BORDERYELLOW = (160,150,5)
+BLACK = (0,0,0)
+GREY = (50,50,50)

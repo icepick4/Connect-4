@@ -6,8 +6,8 @@ except:
     print("Vous n'avez pas téléchargé le module pygame ! \n Téléchargez le avec la commande ci-contre : pip install pygame")
 
 from Classes.board import Board
-
-
+from Classes.pawn import Pawn
+pawns = []
 while playing:
     #screen design
     screen.fill((30,144,255))
@@ -44,6 +44,7 @@ while playing:
             #on presse le bouton cancel
             elif cancelRect.left < posX < cancelRect.right and cancelRect.top < posY < cancelRect.bottom and not game.isEmpty():
                 game.removeLastPawn()
+                pawns.pop()
                 if player == 1:
                     player = 2
                 else:
@@ -51,18 +52,25 @@ while playing:
             #on presse une colonne
             if board.inBoard(posMouse) and not game.fullColumn(case) and inGame and case !=7 and case !=-1:
                 inGame = True
-                game.play(case, player)       
+                row = game.play(case, player)       
                 if player == 1:
+                    pawns.append(Pawn((case,row), RED, BORDERRED, width / 9, height / 8))
                     player = 2
                 else:
+                    pawns.append(Pawn((case,row), YELLOW, BORDERYELLOW, width / 9, height / 8))
                     player = 1
+                
             if not inGame:
                 inGame = True
                 game.resetGrid()
+                pawns = []
 
     #print each pawn
-    board.drawPawn(game)
-
+    #board.drawPawn(game)
+    for i in pawns:
+        checkMove = i.animation(screen)
+        if checkMove:
+            inMove = True
     #preview of play
     if board.inBoard(posMouse) and inGame and case !=7 and case !=-1 and not game.fullColumn(case):
         lastCase = case
@@ -74,10 +82,11 @@ while playing:
 
     #state of the game
     status = game.win()
-    if game.fullGrid():
+    if game.fullGrid() and not inMove:
         inGame = False
         draw.display()
-    elif status:
+        
+    elif status and inMove:
         if status == 1:
             if inGame:
                 winRedCTR += 1
