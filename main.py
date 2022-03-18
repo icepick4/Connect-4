@@ -87,10 +87,7 @@ while playing:
     
     ########STATE OF THE GAME########
     status = game.win()
-    if game.fullGrid() and not inMove:
-        inGame = False
-        draw.display()
-    elif status and not inMove:
+    if status and not inMove:
         if not soundPlayed:
             winSound.play()
         if status == 1 and not soundPlayed:
@@ -106,6 +103,9 @@ while playing:
         status = 0  
     elif status:
         inGame = False
+    elif game.fullGrid() and not inMove:
+        inGame = False
+        draw.display()
         
     
 
