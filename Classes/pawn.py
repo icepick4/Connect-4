@@ -15,12 +15,15 @@ class Pawn:
         pygame.draw.circle(self.surface, borderColor, (width / 2,height / 2), (self.width / 4) + 5, 5)
 
     def animation(self, screen):
+        #new pos
         self.rect = self.surface.get_rect(midtop = (self.width + self.col * self.width + self.width /2, self.height*2 + self.posYAnimation * self.height - 5))
+        #while new row not reached -> posY grows
         if self.posYAnimation < self.lastRow:
             self.posYAnimation += 0.05
             inMove = True
         else:
             inMove = False
         screen.blit(self.surface, self.rect)
+        #return the state to let the pawns move while the game's won
         return inMove
 

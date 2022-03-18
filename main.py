@@ -22,7 +22,7 @@ while playing:
     posY = posMouse[1]
 
     #current column
-    case = int((posX % width // 7) // (width / 7 % width / 9) - 1)
+    col = int((posX % width // 7) // (width / 7 % width / 9) - 1)
 
     #hover effects
     if endRect.left < posX < endRect.right and endRect.top < posY < endRect.bottom:
@@ -50,14 +50,14 @@ while playing:
                 else:
                     player = 1
             #on presse une colonne
-            if board.inBoard(posMouse) and not game.fullColumn(case) and inGame and case !=7 and case !=-1:
+            if board.inBoard(posMouse) and not game.fullColumn(col) and inGame and col !=7 and col !=-1:
                 inGame = True
-                row = game.play(case, player)       
+                row = game.play(col, player)       
                 if player == 1:
-                    pawns.append(Pawn((case,row), RED, BORDERRED, width / 9, height / 8))
+                    pawns.append(Pawn((col,row), RED, BORDERRED, width / 9, height / 8))
                     player = 2
                 else:
-                    pawns.append(Pawn((case,row), YELLOW, BORDERYELLOW, width / 9, height / 8))
+                    pawns.append(Pawn((col,row), YELLOW, BORDERYELLOW, width / 9, height / 8))
                     player = 1
                 
             if not inGame:
@@ -65,19 +65,19 @@ while playing:
                 game.resetGrid()
                 pawns = []
 
-    #print each pawn
-    #board.drawPawn(game)
+    #animate pawns
     for i in pawns:
         checkMove = i.animation(screen)
         if checkMove:
             inMove = True
+
     #preview of play
-    if board.inBoard(posMouse) and inGame and case !=7 and case !=-1 and not game.fullColumn(case):
-        lastCase = case
+    if board.inBoard(posMouse) and inGame and col !=7 and col !=-1 and not game.fullColumn(col):
+        lastcol = col
         if player == 1:
-            board.seePawn(case, (255,50,50))   
+            board.seePawn(col, (255,50,50))   
         else:
-            board.seePawn(case, (255,215,0))
+            board.seePawn(col, (255,215,0))
          
 
     #state of the game
