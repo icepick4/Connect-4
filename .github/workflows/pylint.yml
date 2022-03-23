@@ -21,4 +21,5 @@ jobs:
         pip install pylint
     - name: Analysing the code with pylint
       run: |
+        pylint --generate-rcfile | Out-File -Encoding utf8 .pylintrc
         pylint $(git ls-files '*.py')
