@@ -12,6 +12,10 @@ from variables import (
                         YELLOW,
                         WINREDCTR,
                         WINYELLOWCTR,
+                        PLAYING,
+                        PLAYER,
+                        INGAME,
+                        INMOVE,
                         win_red,
                         win_sound,
                         win_yellow,
@@ -35,7 +39,7 @@ def in_board(click):
     """check if the mouse is in board"""
     #check pos mouse in board
     return case_w <= click[0] < case_w * 8 and case_h <= click[1] < case_h * 7
-
+pawns = []
 while PLAYING:
     #screen design
     screen.fill((30,144,255))
