@@ -19,7 +19,10 @@ class Game:
 
     def full_column(self, col):
         """return boolean for full col or not"""
-        return self.grid[0][col] != 0
+        try:
+            return self.grid[0][col] != 0
+        except IndexError:
+            return False
 
     def reset_grid(self):
         """reset the array of the game"""

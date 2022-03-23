@@ -1,3 +1,4 @@
+"""main"""
 from variables import (
                         width,
                         case_w,
@@ -29,7 +30,7 @@ from variables import (
 try:
     import pygame
 except ModuleNotFoundError:
-    print("""Vous n'avez pas téléchargé le module pygame ! 
+    print("""Vous n'avez pas téléchargé le module pygame !
     \n Téléchargez le avec la commande ci-contre : pip install pygame""")
 
 from board import Board
@@ -90,10 +91,9 @@ while PLAYING:
                 else:
                     pawns.append(Pawn((col,row), YELLOW,case_w, case_h))
                     PLAYER = 1
-                
             if not INGAME:
                 INGAME = True
-                sound_played = False
+                SOUND_PLAYED = False
                 game.reset_grid()
                 pawns = []
 
@@ -112,39 +112,37 @@ while PLAYING:
     if in_board((pos_x, pos_y)) and INGAME and col !=7 and col !=-1 and not game.full_column(col):
         lastcol = col
         if PLAYER == 1:
-            board.see_pawn(col, (255,50,50))   
+            board.see_pawn(col, (255,50,50))
         else:
             board.see_pawn(col, (255,215,0))
-         
-    
     ########STATE OF THE GAME########
     STATUS = game.win()
     if STATUS and not INMOVE:
-        if not sound_played:
+        if not SOUND_PLAYED:
             win_sound.play()
-        if STATUS == 1 and not sound_played:
+        if STATUS == 1 and not SOUND_PLAYED:
             WINREDCTR += 1
         elif STATUS == 1:
-            win_red.display()
-        if STATUS == 2 and not sound_played:
+            win_red.display(screen)
+        if STATUS == 2 and not SOUND_PLAYED:
             WINYELLOWCTR += 1
         elif STATUS == 2:
-            win_yellow.display()
+            win_yellow.display(screen)
         INGAME = False
-        sound_played = True
+        SOUND_PLAYED = True
         STATUS = 0
     elif STATUS:
         INGAME = False
     elif game.full_grid() and not INMOVE:
         INGAME = False
-        draw.display()
+        draw.display(screen)
     ########TEXTS########
     if PLAYER == 1 and INGAME:
-        red_turn.display()
+        red_turn.display(screen)
     elif PLAYER == 2 and INGAME:
-        yellow_turn.display()
+        yellow_turn.display(screen)
     if not INGAME and not INMOVE:
-        new_game.display()
+        new_game.display(screen)
     elif not game.is_empty() and INGAME:
         screen.blit(cancel_surface, cancel_rect)
     #counters
