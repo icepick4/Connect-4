@@ -4,7 +4,7 @@ on: [push]
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     strategy:
       matrix:
         python-version: ["3.8", "3.9"]
@@ -21,4 +21,5 @@ jobs:
         pip install pylint
     - name: Analysing the code with pylint
       run: |
+        pylint --generate-rcfile | Out-File -Encoding utf8 .pylintrc
         pylint $(git ls-files '*.py')
