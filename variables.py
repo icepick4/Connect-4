@@ -1,7 +1,7 @@
 """imports"""
 import pygame
-from Classes.game import Game
-from Classes.text import Text
+from game import Game
+from text import Text
 
 pygame.display.init()
 

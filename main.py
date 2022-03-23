@@ -1,16 +1,41 @@
-from variables import *
+from variables import (
+                        width,
+                        case_w,
+                        case_h,
+                        screen,
+                        end_rect,
+                        cancel_rect,
+                        game,
+                        font,
+                        little_font,
+                        RED,
+                        YELLOW,
+                        WINREDCTR,
+                        WINYELLOWCTR,
+                        win_red,
+                        win_sound,
+                        win_yellow,
+                        red_turn,
+                        yellow_turn,
+                        new_game,
+                        draw,
+                        yellow_counter_rect,
+                        red_counter_rect
+)
 try:
     import pygame
-except:
-    print("Vous n'avez pas téléchargé le module pygame ! \n Téléchargez le avec la commande ci-contre : pip install pygame")
+except ModuleNotFoundError:
+    print("""Vous n'avez pas téléchargé le module pygame ! 
+    \n Téléchargez le avec la commande ci-contre : pip install pygame""")
 
-from Classes.board import Board
-from Classes.pawn import Pawn
+from board import Board
+from pawn import Pawn
 
 def in_board(click):
     """check if the mouse is in board"""
     #check pos mouse in board
     return case_w <= click[0] < case_w * 8 and case_h <= click[1] < case_h * 7
+
 while PLAYING:
     #screen design
     screen.fill((30,144,255))
@@ -28,7 +53,7 @@ while PLAYING:
         end_surface = font.render("CLOSE", True, (255,60,60))
     else:
         end_surface = font.render("CLOSE", True, (0,0,0))
-    if cancel_rect.left < pos_x < cancel_rect.right and cancel_rect.top < pos_y < cancel_rect.bottom:
+    if cancel_rect.left < pos_x < cancel_rect.right and cancel_rect.top <pos_y< cancel_rect.bottom:
         cancel_surface = little_font.render("CANCEL LAST MOVE", True, (200,185,10))
     else:
         cancel_surface = little_font.render("CANCEL LAST MOVE", True, (0,0,0))
@@ -37,11 +62,14 @@ while PLAYING:
         if event.type == 256:
             PLAYING = False
         elif event.type == 1025 and event.button == 1 :
+            width_cancel_restriction = cancel_rect.left<pos_x<cancel_rect.right
+            height_cancel_restriction = cancel_rect.top<pos_y<cancel_rect.bottom
+            check_full_col = not game.full_column(col)
             #on presse le bouton close
             if end_rect.left < pos_x < end_rect.right and end_rect.top < pos_y < end_rect.bottom:
                 PLAYING = False
             #on presse le bouton cancel
-            elif cancel_rect.left < pos_x < cancel_rect.right and cancel_rect.top < pos_y < cancel_rect.bottom and not game.is_empty():
+            elif width_cancel_restriction and height_cancel_restriction and not game.is_empty():
                 game.remove_last_pawn()
                 pawns.pop()
                 if PLAYER == 1:
@@ -49,9 +77,9 @@ while PLAYING:
                 else:
                     PLAYER = 1
             #on presse une colonne
-            if in_board((pos_x, pos_y)) and not game.full_column(col) and INGAME and col !=7 and col !=-1:
+            if in_board((pos_x, pos_y)) and check_full_col and INGAME and col !=7 and col !=-1:
                 INGAME = True
-                row = game.play(col, PLAYER)       
+                row = game.play(col, PLAYER)
                 if PLAYER == 1:
                     pawns.append(Pawn((col,row), RED,case_w, case_h))
                     PLAYER = 2
@@ -61,20 +89,19 @@ while PLAYING:
                 
             if not INGAME:
                 INGAME = True
-                soundPlayed = False
+                sound_played = False
                 game.reset_grid()
                 pawns = []
 
     ########PAWNS########
-    #if won -> speed decrease for last pawn
+    #if won -> SPEED decrease for last pawn
     if INGAME:
-        speed = 0.05
+        SPEED = 0.05
     else:
-        speed = 0.02
+        SPEED = 0.02
     #animation
     for i in pawns:
-        
-        checkMove = i.animation(screen, speed)
+        checkMove = i.animation(screen, SPEED)
         if checkMove:
             INMOVE = True
     #preview of play
@@ -87,29 +114,26 @@ while PLAYING:
          
     
     ########STATE OF THE GAME########
-    status = game.win()
-    if status and not INMOVE:
-        if not soundPlayed:
+    STATUS = game.win()
+    if STATUS and not INMOVE:
+        if not sound_played:
             win_sound.play()
-        if status == 1 and not soundPlayed:
+        if STATUS == 1 and not sound_played:
             WINREDCTR += 1
-        elif status == 1:
+        elif STATUS == 1:
             win_red.display()
-        if status == 2 and not soundPlayed:
+        if STATUS == 2 and not sound_played:
             WINYELLOWCTR += 1
-        elif status == 2:
+        elif STATUS == 2:
             win_yellow.display()
         INGAME = False
-        soundPlayed = True
-        status = 0  
-    elif status:
+        sound_played = True
+        STATUS = 0
+    elif STATUS:
         INGAME = False
     elif game.full_grid() and not INMOVE:
         INGAME = False
         draw.display()
-        
-    
-
     ########TEXTS########
     if PLAYER == 1 and INGAME:
         red_turn.display()
@@ -120,8 +144,8 @@ while PLAYING:
     elif not game.is_empty() and INGAME:
         screen.blit(cancel_surface, cancel_rect)
     #counters
-    yellowCounterSurface = little_font.render("yellow : {0}".format(WINYELLOWCTR), True, (255,255,0))
-    redCounterSurface = little_font.render("red       : {0}".format(WINREDCTR), True, (255,0,0))
+    yellowCounterSurface = little_font.render(f"yellow : {WINYELLOWCTR}", True, (255,255,0))
+    redCounterSurface = little_font.render(f"red       : {WINREDCTR}", True, (255,0,0))
 
     ########BLITS########
     screen.blit(yellowCounterSurface, yellow_counter_rect)
