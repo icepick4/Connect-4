@@ -84,3 +84,56 @@ class Game:
                 if self.grid[i][j] != 0:
                     return False
         return True
+
+    #calculate best move for the IA
+    def best_move(self, player):
+        """return the best move for the IA"""
+        best_score = -1000
+        best_move = -1
+        for i in range(self.columns):
+            if self.full_column(i):
+                continue
+            self.play(i, player)
+            score = self.min_max(player, -1000, 1000, False)
+            self.remove_last_pawn()
+            if score > best_score:
+                best_score = score
+                best_move = i
+        return best_move
+
+    def min_max(self, player, alpha, beta, is_max):
+        """min max algorithm"""
+        if self.win() != 0:
+            if self.win() == player:
+                return 1000
+            else:
+                return -1000
+        if self.full_grid():
+            return 0
+        if is_max:
+            best_score = -1000
+            for i in range(self.columns):
+                if self.full_column(i):
+                    continue
+                self.play(i, player)
+                score = self.min_max(player, alpha, beta, False)
+                self.remove_last_pawn()
+                best_score = max(best_score, score)
+                alpha = max(alpha, best_score)
+                if beta <= alpha:
+                    break
+            return best_score
+        else:
+            best_score = 1000
+            for i in range(self.columns):
+                if self.full_column(i):
+                    continue
+                self.play(i, player)
+                score = self.min_max(player, alpha, beta, True)
+                self.remove_last_pawn()
+                best_score = min(best_score, score)
+                beta = min(beta, best_score)
+                if beta <= alpha:
+                    break
+            return best_score
+        
