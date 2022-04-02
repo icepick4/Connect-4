@@ -84,56 +84,55 @@ class Game:
                 if self.grid[i][j] != 0:
                     return False
         return True
-
-    #calculate best move for the IA
-    def best_move(self, player):
-        """return the best move for the IA"""
-        best_score = -1000
-        best_move = -1
+    
+    def play_ai(self, player):
+        """play the game with the computer"""
+        best = -2
+        best_col = 0
         for i in range(self.columns):
             if self.full_column(i):
                 continue
-            self.play(i, player)
-            score = self.min_max(player, -1000, 1000, False)
+            self.play(i, 1)
+            if self.win() == 1:
+                self.remove_last_pawn()
+                return i
             self.remove_last_pawn()
-            if score > best_score:
-                best_score = score
-                best_move = i
-        return best_move
-
-    def min_max(self, player, alpha, beta, is_max):
-        """min max algorithm"""
-        if self.win() != 0:
-            if self.win() == player:
-                return 1000
-            else:
-                return -1000
-        if self.full_grid():
-            return 0
-        if is_max:
-            best_score = -1000
+            self.play(i, player)
+            score = self.minmax(2, -player, -2, 2)
+            self.remove_last_pawn()
+            if score > best:
+                best = score
+                best_col = i
+        return best_col
+    #minmax algorithm for the AI to play the game with the computer (not finished)
+    def minmax(self, depth, player, alpha, beta):
+        """minmax algorithm"""
+        if depth == 0 or self.win() != 0:
+            return self.win()
+        if player == 1:
+            best = -2
             for i in range(self.columns):
                 if self.full_column(i):
                     continue
                 self.play(i, player)
-                score = self.min_max(player, alpha, beta, False)
+                best = max(best, self.minmax(depth - 1, -player, alpha, beta))
                 self.remove_last_pawn()
-                best_score = max(best_score, score)
-                alpha = max(alpha, best_score)
+                alpha = max(alpha, best)
                 if beta <= alpha:
                     break
-            return best_score
+            return best
         else:
-            best_score = 1000
+            best = 2
             for i in range(self.columns):
                 if self.full_column(i):
                     continue
                 self.play(i, player)
-                score = self.min_max(player, alpha, beta, True)
+                best = min(best, self.minmax(depth - 1, -player, alpha, beta))
                 self.remove_last_pawn()
-                best_score = min(best_score, score)
-                beta = min(beta, best_score)
+                beta = min(beta, best)
                 if beta <= alpha:
                     break
-            return best_score
+            return best
+
+    
         

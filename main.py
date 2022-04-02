@@ -29,9 +29,9 @@ from variables import (
                         yellow_counter_rect,
                         red_counter_rect,
                         height,
-                        IA,
-                        ia_text,
-                        ia_turn
+                        AI,
+                        AI_text,
+                        AI_turn
 )
 try:
     import pygame
@@ -87,11 +87,12 @@ while PLAYING:
             #on presse une colonne
             if check_full_col and INGAME and col !=7 and col !=-1:
                 INGAME = True
-                row = game.play(col, PLAYER)
                 if PLAYER == 1:
+                    row = game.play(col, PLAYER)
                     pawns.append(Pawn((col,row), RED,case_w, case_h))
                     PLAYER = 2
-                else:
+                elif PLAYER == 2 and not AI:
+                    row = game.play(col, PLAYER)
                     pawns.append(Pawn((col,row), YELLOW,case_w, case_h))
                     PLAYER = 1
             if not INGAME:
@@ -101,12 +102,12 @@ while PLAYING:
                 pawns = []
         elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
             if check_box.check_mouse((pos_x, pos_y)) and not INGAME:
-                IA = not IA
-                print(IA)
-                if IA:
-                    ia_text.surface = ia_text.font.render("IA ON", True, BLACK)
+                AI = not AI
+                PLAYER = 1
+                if AI:
+                    AI_text.surface = AI_text.font.render("AI ON", True, BLACK)
                 else:
-                    ia_text.surface = ia_text.font.render("IA OFF", True, BLACK)
+                    AI_text.surface = AI_text.font.render("AI OFF", True, BLACK)
             #on presse le bouton close
             if end_rect.left < pos_x < end_rect.right and end_rect.top < pos_y < end_rect.bottom:
                 PLAYING = False
@@ -122,10 +123,9 @@ while PLAYING:
         if checkMove:
             INMOVE = True
     #if player == 2 and not game.is_empty() and pawns not in move use the method best_move and add it to pawns
-    if PLAYER == 2 and not game.is_empty() and not INMOVE and IA:
-        print("oui")
+    if PLAYER == 2 and not game.is_empty() and not INMOVE and AI and INGAME:
         INMOVE = True
-        best_move = game.best_move(2)
+        best_move = game.play_ai(2)
         row = game.play(best_move, PLAYER)
         pawns.append(Pawn((best_move,row), YELLOW,case_w, case_h))
         PLAYER = 1
@@ -137,7 +137,7 @@ while PLAYING:
         lastcol = col
         if PLAYER == 1:
             board.see_pawn(col, (255,50,50))
-        elif PLAYER == 2 and not IA:
+        elif PLAYER == 2 and not AI:
             board.see_pawn(col, (255,215,0))
     ########STATE OF THE GAME########
     STATUS = game.win()
@@ -146,6 +146,8 @@ while PLAYING:
             win_sound.play()
         if STATUS == 1 and not SOUND_PLAYED:
             WINREDCTR += 1
+            if AI:
+                PLAYER = 1
         elif STATUS == 1:
             win_red.display(screen)
         if STATUS == 2 and not SOUND_PLAYED:
@@ -163,12 +165,12 @@ while PLAYING:
     ########TEXTS########
     if PLAYER == 1 and INGAME:
         red_turn.display(screen)
-    elif PLAYER == 2 and INGAME and not IA:
+    elif PLAYER == 2 and INGAME and not AI:
         yellow_turn.display(screen)
-    elif PLAYER == 2 and INGAME and IA:
-        ia_turn.display(screen)
+    elif PLAYER == 2 and INGAME and AI:
+        AI_turn.display(screen)
     if not INGAME and not INMOVE:
-        ia_text.display(screen)
+        AI_text.display(screen)
         new_game.display(screen)
     elif not game.is_empty() and INGAME:
         screen.blit(cancel_surface, cancel_rect)
