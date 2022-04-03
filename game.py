@@ -1,4 +1,5 @@
 """class to define the game"""
+import random
 class Game:
     """init a game"""
     def __init__(self):
@@ -84,7 +85,7 @@ class Game:
                 if self.grid[i][j] != 0:
                     return False
         return True
-    
+
     def play_ai(self, player):
         """play the game with the computer"""
         best = -2
@@ -103,6 +104,8 @@ class Game:
             if score > best:
                 best = score
                 best_col = i
+        if self.last_pawn[len(self.last_pawn)-1][0] == 5:
+            return random.randint(0,6)
         return best_col
     #minmax algorithm for the AI to play the game with the computer (not finished)
     def minmax(self, depth, player, alpha, beta):
@@ -121,18 +124,14 @@ class Game:
                 if beta <= alpha:
                     break
             return best
-        else:
-            best = 2
-            for i in range(self.columns):
-                if self.full_column(i):
-                    continue
-                self.play(i, player)
-                best = min(best, self.minmax(depth - 1, -player, alpha, beta))
-                self.remove_last_pawn()
-                beta = min(beta, best)
-                if beta <= alpha:
-                    break
-            return best
-
-    
-        
+        best = 2
+        for i in range(self.columns):
+            if self.full_column(i):
+                continue
+            self.play(i, player)
+            best = min(best, self.minmax(depth - 1, -player, alpha, beta))
+            self.remove_last_pawn()
+            beta = min(beta, best)
+            if beta <= alpha:
+                break
+        return best

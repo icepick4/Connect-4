@@ -41,4 +41,3 @@ class Pawn:
     def get_color(self):
         """return the color of the current pawn"""
         return self.color
-
